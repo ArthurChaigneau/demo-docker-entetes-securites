@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSP Demo</title>
+    <script>
+        // JavaScript inline pour démontrer la vulnérabilité
+        function showMessage(message) {
+            document.getElementById('message').innerHTML = message;
+        }
+    </script>
+</head>
+<body>
+    <h1>Content Security Policy Demo</h1>
+    <form id="messageForm" onsubmit="event.preventDefault(); showMessage(document.getElementById('userInput').value);">
+        <label for="userInput">Enter a message:</label>
+        <input type="text" id="userInput" name="userInput">
+        <button type="submit">Submit</button>
+    </form>
+    <div id="message"></div>
+</body>
+</html>

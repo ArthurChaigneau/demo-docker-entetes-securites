@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Content-Type Sniffing Demo</title>
+    <script>
+        function downloadFile() {
+            var link = document.createElement('a');
+            link.href = 'malicious.html';
+            link.download = 'malicious.html';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        window.onload = downloadFile;
+    </script>
+</head>
+<body>
+    <h1>Welcome to the Vulnerable Site</h1>
+    <p>Your file is being downloaded...</p>
+</body>
+</html>
