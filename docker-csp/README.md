@@ -1,26 +1,12 @@
-    Modifier le fichier default.conf pour ajouter l'entête CSP :
+# Attaque
+Injecter un payload du genre :
+     `<img src="" onerror=alert(1)>`
+     `<iframe src=javascript:alert(1)>`
 
-nginx
-
-server {
-    listen 80;
-    server_name localhost;
-
-    root /usr/share/nginx/html;
-    index index.html;
-
-    location / {
-        add_header Content-Security-Policy "default-src 'self'; script-src 'self';";
-        try_files $uri $uri/ =404;
-    }
-}
-
-    Créer un fichier main.js et déplacer le script inline :
-
-Créer un fichier html/main.js :
-
-javascript
-
+# Remédiation
+Il faut enlever le inline javascript du fichier index.html puis créer un CSP.
+## Créer un fichier main.js
+```
 function showMessage(message) {
     document.getElementById('message').innerHTML = message;
 }
@@ -29,11 +15,9 @@ document.getElementById('messageForm').onsubmit = function(event) {
     event.preventDefault();
     showMessage(document.getElementById('userInput').value);
 }
-
-Modifier index.html pour inclure le fichier JS :
-
-html
-
+```
+## Modifier index.html
+```
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,5 +36,20 @@ html
     <div id="message"></div>
 </body>
 </html>
+```
+## Rajouter la CSP dans default.conf
+```
+server {
+    listen 80;
+    server_name localhost;
 
-    Rebâtir et relancer le conteneur Docker :
+    root /usr/share/nginx/html;
+    index index.html;
+
+    location / {
+        add_header Content-Security-Policy "default-src 'self'; script-src 'self';";
+        try_files $uri $uri/ =404;
+    }
+}
+```
+
